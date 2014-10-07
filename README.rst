@@ -5,15 +5,14 @@ darwin
 
 Medical Image Analysis and Classification Tools
 
-Named after Charles Darwin (1809-1882), was an English naturalist and geologist,
- best known for his contributions to evolutionary theory. Through fauna classification
-he was able to infer the evolutionary theory.
+Named after Charles Darwin (1809-1882), who was an English naturalist and geologist, best known for his contributions to evolutionary theory. 
+Through fauna classification he was able to infer the evolutionary theory.
 
-.. image:: https://secure.travis-ci.org/alexsavio/darwin.png?branch=master
-    :target: https://travis-ci.org/alexsavio/darwin
+.. image:: https://secure.travis-ci.org/neurita/darwin.png?branch=master
+    :target: https://travis-ci.org/neurita/darwin
 
-.. image:: https://coveralls.io/repos/alexsavio/darwin/badge.png
-    :target: https://coveralls.io/r/alexsavio/darwin
+.. image:: https://coveralls.io/repos/neurita/darwin/badge.png
+    :target: https://coveralls.io/r/neurita/darwin
 
 
 Dependencies
