@@ -1,0 +1,4 @@
+#pip install the rest
+matplotlib==1.4.0
+pyyaml==3.11
+scikit-learn==0.15.2
