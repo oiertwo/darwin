@@ -18,7 +18,7 @@ Through fauna classification he was able to infer the evolutionary theory.
 Dependencies
 ============
 
-Please see the requirements.txt and pip_requirements.txt file.
+Please see the requirements.txt and pip_requirements.txt files.
 
 Install
 =======
