@@ -234,14 +234,12 @@ class ClassificationPipeline(Printable):
             except Exception as exc:
                 probs[fold_count] = None
 
-            log.debug('Result: {} classifies as {}.'.format(y_test,
-                                                            preds[fold_count]))
+            log.debug('Result: {} classifies as {}.'.format(y_test, preds[fold_count]))
 
             fold_count += 1
 
         #summarize results
-        has_values = lambda adict: bool([i for i in adict
-                                         if adict[i] is not None])
+        has_values = lambda adict: bool([i for i in adict if adict[i] is not None])
 
         if not has_values(probs):
             probs = None
@@ -249,12 +247,11 @@ class ClassificationPipeline(Printable):
             importance = None
 
         if isinstance(self._cv, LeaveOneOut):
-            cv_targets, preds, \
-            probs, labels = enlist_cv_results_from_dict(truth, preds, probs)
+            truth, preds, probs, labels = enlist_cv_results_from_dict(truth, preds, probs)
+        else:
+            labels = np.unique(targets)
 
-        self._results = ClassificationResult(preds, probs, cv_targets,
-                                             best_pars, self._cv, importance,
-                                             targets, labels)
+        self._results = ClassificationResult(preds, probs, truth, best_pars, self._cv, importance, targets, labels)
 
         #calculate performance metrics
         self._metrics = self.result_metrics()
@@ -313,8 +310,8 @@ class ClassificationPipeline(Printable):
             avg_metrics = metrics.mean(axis=0)
             std_metrics = metrics.std(axis=0)
 
-            avgs = ClassificationMetrics(**tuple(avg_metrics))
-            stds = ClassificationMetrics(**tuple(std_metrics))
+            avgs = ClassificationMetrics(*tuple(avg_metrics))
+            stds = ClassificationMetrics(*tuple(std_metrics))
 
             return avgs, stds
 
