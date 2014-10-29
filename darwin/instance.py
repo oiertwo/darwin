@@ -1,6 +1,7 @@
 """
 YAML Class Instantiator
 """
+import re
 import sys
 import yaml
 import logging
@@ -28,7 +29,7 @@ def import_class(class_module_path):
     import importlib
     try:
         mod = importlib.import_module(class_module_path)
-        class_name = class_module_path.split('.')[-1]
+        class_name = re.split('.', class_module_path)[-1]
         return getattr(mod, class_name)
     except:
         log.exception('Error importing class {}.'.format(class_module_path))
@@ -85,7 +86,7 @@ def import_pyfile(filepath, mod_name=None):
     return mod
 
 
-class Instantiator():
+class Instantiator(object):
     """
     YAML Class Instantiator for classifiers and feature selections methods.
     For now, it only works on classes with the scikit-learn interface.
@@ -95,6 +96,24 @@ class Instantiator():
     """
 
     def __init__(self, ymlpath):
-
+        try:
+            with open(ymlpath, 'rt') as f:
+                self.yamldata = yaml.load(f)
+        except IOError:
+            log.exception("File {} not found.".format(ymlpath))
+            raise
+        except:
+            log.exception("Error reading file {}.".format(ymlpath))
+            raise
 
     def get_instance(self, class_name):
+
+        class_data = self.yamldata[class_name]
+        full_class_path = class_data['class']
+        try:
+            cls = import_class(full_class_path)
+            return cls(**class_data['default'])
+        except ImportError:
+            log.exception("Error when importing module "
+                          "class {}.".format(class_name))
+            raise
