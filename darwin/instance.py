@@ -26,6 +26,12 @@ class Instantiator():
     """
 
     def __init__(self, ymlpath):
-
+        with open(ymlpath, 'rt') as f:
+            self.yamldata = yaml.load(f)
 
     def get_instance(self, class_name):
+        try:
+            ret_class = import_module(self.data[class_name]['class'])
+        except Exception as e:
+            print("Error: when reading data from YAML")
+            raise e
