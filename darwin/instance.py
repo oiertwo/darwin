@@ -3,7 +3,7 @@ YAML Class Instantiator
 """
 import sys
 import yaml
-
+import re
 
 def import_module(module_path):
     """Import any module to the global Python environment.
@@ -61,12 +61,26 @@ class Instantiator():
     """
 
     def __init__(self, ymlpath):
-        with open(ymlpath, 'rt') as f:
-            self.yamldata = yaml.load(f)
+        try:
+            with open(ymlpath, 'rt') as f:
+                self.yamldata = yaml.load(f)
+        except FileNotFoundError:
+            print("Error: File do not exist")
 
     def get_instance(self, class_name):
+
+        my_class = None
+
+        class_data = self.yamldata[class_name]
+        full_class_path = class_data['class']
+        base_class_path = re.split(".", full_class_path)[-1]
         try:
-            ret_class = import_module(self.data[class_name]['class'])
-        except Exception as e:
+            mod = import_class(full_class_path)
+            my_class = globals()[real_class_path](**class_data['default'])
+        except ImportError as e:
+            print("Error: an error ocurred while importing the module")
+        except FileNotFoundError as e:
             print("Error: when reading data from YAML")
             raise e
+
+        return(my_class)
