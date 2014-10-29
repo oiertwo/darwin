@@ -76,7 +76,7 @@ class Instantiator():
         base_class_path = re.split(".", full_class_path)[-1]
         try:
             mod = import_class(full_class_path)
-            my_class = globals()[real_class_path](**class_data['default'])
+            my_class = globals()[base_class_path](**class_data['default'])
         except ImportError as e:
             print("Error: an error ocurred while importing the module")
         except FileNotFoundError as e:
