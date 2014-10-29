@@ -93,6 +93,8 @@ class Instantiator(object):
 
     Parameters
     ----------
+    ymlpath: str
+        Path to a YAML Path with the syntax of learners.yml and selectors.yml
     """
 
     def __init__(self, ymlpath):
@@ -107,12 +109,19 @@ class Instantiator(object):
             raise
 
     def get_instance(self, class_name):
+        """Return the instance of a class defined in the yml file.
 
+        Parameters
+        ----------
+        class_name: str
+
+        """
         class_data = self.yamldata[class_name]
         full_class_path = class_data['class']
         try:
             cls = import_class(full_class_path)
-            return cls(**class_data['default'])
+            default_params = class_data.get('default', {})
+            return cls(**default_params)
         except ImportError:
             log.exception("Error when importing module "
                           "class {}.".format(class_name))
