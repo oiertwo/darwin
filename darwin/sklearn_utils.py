@@ -144,7 +144,8 @@ def get_classifier_parameter_grid(clfmethod, n_feats):
 
     Returns
     -------
-    classifiers[clfmethod], clgrid[clfmethod]
+    clgrid[clfmethod]
+        The parameter grid.
     """
     #Classifiers parameter values for grid search
     if n_feats < 10:
