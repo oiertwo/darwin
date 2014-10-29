@@ -6,7 +6,6 @@
 # Darya Chyzhyk <darya.chyzhyk@gmail.com>
 # Borja Ayerdi <ayerdi.borja@gmail.com>
 # Grupo de Inteligencia Computational <www.ehu.es/ccwintco>
-# Neurita S.L.
 #
 # BSD 3-Clause License
 #
@@ -29,7 +28,8 @@ from .distance import (welch_ttest, bhattacharyya_dist,
                        BhatacharyyaGaussianDistance,
                        WelchTestDistance)
 
-from .threshold import (RobustThreshold, RankThreshold, PercentileThreshold)
+from .threshold import (Threshold, RobustThreshold, RankThreshold,
+                        PercentileThreshold)
 from .printable import Printable
 from .storage import save_variables_to_shelve
 
@@ -66,14 +66,14 @@ class DistanceBasedSelection(_BaseFilter, SelectorMixin):
     https://github.com/scikit-learn/scikit-learn/blob/master/sklearn/feature_selection/univariate_selection.py
     """
 
-    def __init__(self, score_func, threshold):
+    def __init__(self, score_func, thr, threshold_name='robust'):
         """
         :param score_func:
 
         :param threshold: Threshold method
         """
         _BaseFilter.__init__(self, score_func)
-        self.threshold = threshold
+        self.threshold = Threshold(threshold_name, thr)
 
     def _check_params(self, x, y):
         if not 0 <= self.threshold.value <= 1:
