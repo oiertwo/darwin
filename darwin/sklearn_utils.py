@@ -97,6 +97,8 @@ def get_classification_algorithm(clfmethod, **clf_kwargs):
     sklearn.classifier
     """
 
+    max_iter = clf_kwargs.get('max_iter', 50000) 
+
     #classifiers
     classifiers = {'cart': tree.DecisionTreeClassifier(),
 
@@ -109,10 +111,10 @@ def get_classification_algorithm(clfmethod, **clf_kwargs):
 
                    'gmm': GMM(init_params='wc', n_iter=20, **clf_kwargs),
 
-                   'rbfsvm': SVC(probability=True, max_iter=50000,
+                   'rbfsvm': SVC(probability=True, max_iter=max_iter,
                                  class_weight='auto', **clf_kwargs),
 
-                   'polysvm': SVC(probability=True, max_iter=50000,
+                   'polysvm': SVC(probability=True, max_iter=max_iter,
                                   class_weight='auto', **clf_kwargs),
 
                    'linsvm': LinearSVC(class_weight='auto', **clf_kwargs),
