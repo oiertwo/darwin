@@ -7,7 +7,7 @@ from .config import LOG_LEVEL
 
 
 def setup_logging(default_path=os.path.join(os.path.dirname(__file__),
-                                            'logger.yaml'),
+                                            'logger.yml'),
                   default_level=LOG_LEVEL,
                   env_key='DARWIN_LOG_CFG'):
     """Setup logging configuration
