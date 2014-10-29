@@ -1,0 +1,84 @@
+DecisionTreeClassifier
+ class: sklearn.tree.DecisionTreeClassifier
+ default:
+  criterion: 'entropy'
+ param_grid:
+  criterion: ['gini', 'entropy']
+  max_depth: [None, 10, 20, 30]
+  max_features: ["auto", None]
+rbfsvm
+ class: sklearn.svm.SVC
+ default:
+  probability: true
+  max_iter: max_iter
+  class_weight: 'auto'
+ param_grid:
+  kernel: 'rbf'
+  C: [0.01, 0.1, 1.0, 10.0, 100.0]
+  gamma: [0.01, 0.1, 1.0, 10.0, 100.0]
+polysvm
+ class: sklearn.svm.SVC
+ default:
+  probability: true
+  max_iter: max_iter
+  class_weight: 'auto'
+ param_grid:
+  kernel: 'poly'
+  C: [0.01, 0.1, 1.0, 10.0, 100.0]
+  degree: [0.01, 0.1, 1.0, 10.0, 100.0]
+LinearSVC
+ class: sklearn.svm.LinearSVC
+ default:
+  class_weight: 'auto'
+ param_grid:
+  C: [0.01, 0.1, 1.0, 10.0, 100.0]
+GMM
+ class: sklearn.mixture.GMM
+ default:
+  init_params: 'wc'
+  n_iter: 20
+ param_grid:
+  n_components: [2, 3, 4, 5]
+  covariance_type: ['spherical', 'tied', 'diag']
+  thresh: [True, False]
+RandomForestClassifier
+ class: sklearn.ensemble.RandomForestClassifier
+ default:
+  max_depth: None
+  n_estimators: 500
+  min_samples_split: 1
+  random_state: None
+ param_grid:
+  max_depth: [1, 5, 10, None]
+  n_estimators: [3, 5, 10, 30, 50, 100]
+  max_features: max_feats
+extratrees
+ class: sklearn.ensemble.RandomForestClassifier
+ default:
+  max_depth: None
+  n_estimators: 50
+  min_samples_split: 1
+  random_state: 0
+ param_grid:
+  max_depth: [1, 5, 10, None]
+  n_estimators: [10, 30, 50]
+  max_features: max_feats
+SGDClassifier
+ class: sklearn.linear_model.SGDClassifier
+ default:
+  fit_interecept: True
+  class_weight: 'auto'
+  shuffle: True
+  n_iter: 2404
+  loss: 'modified_huber'
+ param_grid:
+  loss: ['hinge', 'modified_huber', 'log']
+  penalty: ["l1", "l2", "elasticnet"]
+  alpha: [0.000001, 0.00001, 0.0001, 0.001, 0.01]
+Perceptron
+ class: sklearn.linear_model.Perceptron
+ default:
+  class_weight: 'auto'
+ param_grid:
+  penalty: [None, 'l2', 'l1', 'elasticnet']
+  alpha: [0.01, 0.1, 1.0, 10.0, 100.0]
