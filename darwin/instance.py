@@ -5,12 +5,13 @@ import re
 import sys
 import yaml
 import logging
+import importlib
 
 log = logging.getLogger(__name__)
 
 
-def import_class(class_module_path):
-    """Import any class to the global Python environment.
+def import_this(object_module_path):
+    """Import any class or function to the global Python environment.
        The module_path argument specifies what class to import in
        absolute or relative terms (e.g. either pkg.mod or ..mod).
        If the name is specified in relative terms, then the package argument
@@ -26,13 +27,12 @@ def import_class(class_module_path):
     -------
     The specified module will be inserted into sys.modules and returned.
     """
-    import importlib
     try:
-        mod = importlib.import_module(class_module_path)
-        class_name = re.split('.', class_module_path)[-1]
-        return getattr(mod, class_name)
+        mod = import_module(object_module_path)
+        obj_name = re.split('.', object_module_path)[-1]
+        return getattr(mod, obj_name)
     except:
-        log.exception('Error importing class {}.'.format(class_module_path))
+        log.exception('Error importing object {}.'.format(object_module_path))
         raise
 
 
@@ -54,7 +54,6 @@ def import_module(module_path):
     -------
     The specified module will be inserted into sys.modules and returned.
     """
-    import importlib
     try:
         mod = importlib.import_module(module_path)
         return mod
@@ -109,51 +108,59 @@ class Instantiator(object):
             raise
 
     def get_yaml_item(self, item_name):
-        """
+        """Return the item in the YAML file corresponding to the given item_name
+
         Parameters
         ----------
         item_name: str
 
         Returns
         -------
-        """
-        self.yamldata[item_name]
+        yml_item: dict
+            The item in the YAML file corresponding to the given item_name
 
+        Raises
+        ------
+        KeyError
+            If the item_name is not found
+        """
+        try:
+            return self.yamldata[item_name]
+        except KeyError as ke:
+            log.exception('Could not find item {}.'.format(item_name))
+            raise
 
     def get_class_instance(self, class_name):
-        """Return the instance of a class defined in the yml file.
+        """Import the needed module for the class and return the instance of a class defined in the yml file.
 
         Parameters
         ----------
         class_name: str
 
+        Returns
+        -------
+        cls: class
+            The class
+
+        Raises
+        ------
+        KeyError
+            If the item_name is not found
+
+        ImportError
+            If the there is any error importing the class
+
         """
-        class_data = self.get_yaml_item(class_name)
-        class_path = class_data['class']
         try:
-            cls = import_class(class_path)
+            class_data = self.get_yaml_item(class_name)
+            cls = import_this(class_data['class'])
             default_params = class_data.get('default', {})
             return cls(**default_params)
         except ImportError:
             log.exception("Error when importing module "
                           "class {}.".format(class_name))
             raise
-
-    def import_function(self, function_path):
-        """Import and return a function given its module path
-
-        Parameters
-        ----------
-        function_path: str
-
-        """
-        class_data = self.yamldata[class_name]
-        full_class_path = class_data['class']
-        try:
-            cls = import_class(full_class_path)
-            default_params = class_data.get('default', {})
-            return cls(**default_params)
-        except ImportError:
+        except:
             log.exception("Error when importing module "
                           "class {}.".format(class_name))
             raise
