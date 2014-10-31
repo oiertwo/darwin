@@ -3,7 +3,7 @@ disable_existing_loggers: false
 
 formatters:
  verbose:
-  format: "%(asctime)s %(module)s %(process)d %(thread)d %(filename)s %(funcName)s: %(message)s"
+  format: "%(asctime)s %(module)s %(process)d %(thread)d %(filename)s %(funcName)s: %(levelname)s %(message)s"
 
  simple:
   format: "%(filename)s %(funcName)s: %(levelname)s %(message)s"
@@ -21,7 +21,7 @@ handlers:
   formatter: verbose
   filename: darwin_info.log
   maxBytes: 10485760
-  backupCount: 20
+  backupCount: 5
   encoding: utf8
 
  error_file_handler:
@@ -30,11 +30,12 @@ handlers:
   formatter: verbose
   filename: darwin_errors.log
   maxBytes: 10485760
+  backupCount: 5
   encoding: utf8
 
 loggers:
  darwin:
-  level: ERROR
+  level: INFO
   handlers: [console, info_file_handler, error_file_handler]
   propagate: no
 
