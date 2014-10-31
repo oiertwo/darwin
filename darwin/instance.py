@@ -108,12 +108,43 @@ class Instantiator(object):
             log.exception("Error reading file {}.".format(ymlpath))
             raise
 
-    def get_instance(self, class_name):
+    def get_yaml_item(self, item_name):
+        """
+        Parameters
+        ----------
+        item_name: str
+
+        Returns
+        -------
+        """
+        self.yamldata[item_name]
+
+
+    def get_class_instance(self, class_name):
         """Return the instance of a class defined in the yml file.
 
         Parameters
         ----------
         class_name: str
+
+        """
+        class_data = self.get_yaml_item(class_name)
+        class_path = class_data['class']
+        try:
+            cls = import_class(class_path)
+            default_params = class_data.get('default', {})
+            return cls(**default_params)
+        except ImportError:
+            log.exception("Error when importing module "
+                          "class {}.".format(class_name))
+            raise
+
+    def import_function(self, function_path):
+        """Import and return a function given its module path
+
+        Parameters
+        ----------
+        function_path: str
 
         """
         class_data = self.yamldata[class_name]
