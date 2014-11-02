@@ -170,18 +170,18 @@ class Instantiator(object):
 
         """
         try:
-            class_data = self.get_yaml_item(class_name)
+            class_data = self.get_yaml_item(item_name)
             cls = import_this(class_data['class'])
             default_params = class_data.get('default', {})
             return cls(**default_params)
         except ImportError:
-            log.exception("Error importing module class {}.".format(class_name))
+            log.exception("Error importing module class {}.".format(item_name))
             raise
         except:
-            log.exception("Error importing module class {}.".format(class_name))
+            log.exception("Error importing module class {}.".format(item_name))
             raise
 
-    def get_param_grid(self, class_name):
+    def get_param_grid(self, item_name):
         """Return the defined parameter grid for the given learner class.
 
         Parameters
@@ -202,11 +202,11 @@ class Instantiator(object):
             If the there is any error importing the class
         """
         try:
-            class_data = self.get_yaml_item(class_name)
+            class_data = self.get_yaml_item(item_name)
             return class_data['param_grid']
         except ImportError:
-            log.exception("Error importing module class {}.".format(class_name))
+            log.exception("Error importing module class {}.".format(item_name))
             raise
         except:
-            log.exception("Error importing module class {}.".format(class_name))
+            log.exception("Error importing module class {}.".format(item_name))
             raise

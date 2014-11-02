@@ -55,7 +55,7 @@ from .features import (PearsonCorrelationSelection,
                        WelchTestSelection)
 
 from .threshold import Threshold
-from .strings import append_to_keys
+from .utils.strings import append_to_keys
 
 log = logging.getLogger(__name__)
 
@@ -97,7 +97,7 @@ def get_classification_algorithm(clfmethod, **clf_kwargs):
     sklearn.classifier
     """
 
-    max_iter = clf_kwargs.get('max_iter', 50000) 
+    max_iter = clf_kwargs.get('max_iter', 50000)
 
     #classifiers
     classifiers = {'cart': tree.DecisionTreeClassifier(),

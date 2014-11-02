@@ -23,7 +23,7 @@ class TestImports(TestCase):
         pytest.raises(IOError, instance.import_pyfile, op.join(MODULE_DIR, 'dontexists'))
 
     def test_import_pyfile(self):
-        imp_inst = instance.import_pyfile(op.join(MODULE_DIR, 'logger.py'), 'setup_logging')
+        imp_inst = instance.import_pyfile(op.join(MODULE_DIR, 'version.py'), 'VERSION')
         assert('imp_inst' in sys.modules)
         assert(has_attr(imp_inst, 'import_pyfile'))
 

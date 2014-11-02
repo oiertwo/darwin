@@ -30,7 +30,7 @@ from .distance import (welch_ttest, bhattacharyya_dist,
 
 from .threshold import (Threshold, RobustThreshold, RankThreshold,
                         PercentileThreshold)
-from .printable import Printable
+from .utils.printable import Printable
 from .storage import save_variables_to_shelve
 
 
@@ -285,4 +285,3 @@ def create_feature_sets(fsmethod, samples, mask, targets, outdir, outbasename):
 
     #save file
     save_variables_to_shelve(outfname + otype, {'feats': feats})
-

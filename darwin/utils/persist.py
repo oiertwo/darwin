@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os.path as op
 import joblib
 from ..version import __version__, VERSION
 
@@ -56,8 +57,8 @@ class PersistenceMixin(object):
             The path to where you want to save the object.
         '''
         # create the directory if it doesn't exist
-        learner_dir = os.path.dirname(objdump_path)
-        if not os.path.exists(learner_dir):
+        learner_dir = op.dirname(objdump_path)
+        if not op.exists(learner_dir):
             os.makedirs(learner_dir)
 
         # write out the files

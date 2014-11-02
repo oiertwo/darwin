@@ -28,4 +28,4 @@ def setup_logging(log_config_file=op.join(op.dirname(__file__), 'logger.yml'),
         #print('Started default logging. Could not find config file '
         #      'in {0}.'.format(path))
     log = logging.getLogger(__name__)
-    log.info('Start logging.')
+    log.debug('Start logging.')
