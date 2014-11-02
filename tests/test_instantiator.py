@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 import os.path as op
 import pytest
 from unittest import TestCase
