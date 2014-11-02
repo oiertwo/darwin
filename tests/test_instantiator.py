@@ -2,7 +2,7 @@
 import os.path as op
 import pytest
 from unittest import TestCase
-from darwin import instance
+from darwin.utils import instance
 
 CWD = op.dirname(op.realpath(__file__))
 MODULE_DIR = op.join(CWD, '..', 'darwin')
