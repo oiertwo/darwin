@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 """
 YAML Class Instantiator
 """
-import re
+import os.path as op
 import sys
 import yaml
 import logging
@@ -11,7 +12,7 @@ log = logging.getLogger(__name__)
 
 
 def import_this(object_module_path):
-    """Import any class or function to the global Python environment.
+    """Import any class or function to the global Python environment.j
        The module_path argument specifies what class to import in
        absolute or relative terms (e.g. either pkg.mod or ..mod).
        If the name is specified in relative terms, then the package argument
@@ -28,11 +29,12 @@ def import_this(object_module_path):
     The specified module will be inserted into sys.modules and returned.
     """
     try:
-        mod = import_module(object_module_path)
-        obj_name = re.split('.', object_module_path)[-1]
-        return getattr(mod, obj_name)
+        mod_path_list = object_module_path.split('.')
+
+        mod = import_module('.'.join(mod_path_list[:-1]))
+        return getattr(mod, mod_path_list[-1])
     except:
-        log.exception('Error importing object {}.'.format(object_module_path))
+        log.exception('Importing object {}.'.format(object_module_path))
         raise
 
 
@@ -43,6 +45,7 @@ def import_module(module_path):
        If the name is specified in relative terms, then the package argument
        must be set to the name of the package which is to act as the anchor
        for resolving the package name (e.g. import_module('..mod', 'pkg.subpkg')
+
        will import pkg.mod).
 
     Parameters
@@ -58,7 +61,7 @@ def import_module(module_path):
         mod = importlib.import_module(module_path)
         return mod
     except:
-        log.exception('Error importing module {}.'.format(module_path))
+        log.exception('Importing module {}.'.format(module_path))
         raise
 
 
@@ -66,14 +69,28 @@ def import_pyfile(filepath, mod_name=None):
     """
     Imports the contents of filepath as a Python module.
 
-    :param filepath: string
+    Parameters
+    ----------
+    filepath: str
+        Path to the .py file to be imported as a module
 
-    :param mod_name: string
-    Name of the module when imported
+    mod_name: str
+        Name of the module when imported
 
-    :return: module
-    Imported module
+    Returns
+    -------
+    mod
+        The imported module
+
+    Raises
+    ------
+    IOError
+        If file is not found
     """
+    if not op.exists(filepath):
+        msg = 'File {} not found.'.format(filepath)
+        raise IOError(msg)
+
     if sys.version_info.major == 3:
         import importlib.machinery
         loader = importlib.machinery.SourceFileLoader('', filepath)
@@ -86,6 +103,7 @@ def import_pyfile(filepath, mod_name=None):
 
 
 class Instantiator(object):
+
     """
     YAML Class Instantiator for classifiers and feature selections methods.
     For now, it only works on classes with the scikit-learn interface.
@@ -157,10 +175,38 @@ class Instantiator(object):
             default_params = class_data.get('default', {})
             return cls(**default_params)
         except ImportError:
-            log.exception("Error when importing module "
-                          "class {}.".format(class_name))
+            log.exception("Error importing module class {}.".format(class_name))
             raise
         except:
-            log.exception("Error when importing module "
-                          "class {}.".format(class_name))
+            log.exception("Error importing module class {}.".format(class_name))
+            raise
+
+    def get_param_grid(self, class_name):
+        """Return the defined parameter grid for the given learner class.
+
+        Parameters
+        ----------
+        class_name: str
+
+        Returns
+        -------
+        cls: class
+            The class
+
+        Raises
+        ------
+        KeyError
+            If the item_name is not found
+
+        ImportError
+            If the there is any error importing the class
+        """
+        try:
+            class_data = self.get_yaml_item(class_name)
+            return class_data['param_grid']
+        except ImportError:
+            log.exception("Error importing module class {}.".format(class_name))
+            raise
+        except:
+            log.exception("Error importing module class {}.".format(class_name))
             raise
