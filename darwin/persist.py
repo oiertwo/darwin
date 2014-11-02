@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 import joblib
 from .version import __version__, VERSION
 
@@ -46,7 +46,7 @@ class PersistenceMixin(object):
             The path to the file to load.
         '''
         del self.__dict__
-        self.__dict__ = PersistenceMixin.from_file(objdump_path).__dict__
+        self.__dict__ = self.__class__.from_file(objdump_path).__dict__
 
     def save(self, objdump_path):
         '''Save the object to a file.
