@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as stats
@@ -86,28 +86,28 @@ def get_gini_indices(samples, targets):
     return res
 
 
-def plot_gini_indices(ginis, var_names, comparison_name, 
+def plot_gini_indices(ginis, var_names, comparison_name,
                       num_vars_to_plot=20):
-    """Plots the Gini Indices of the top num_vars_to_plot 
+    """Plots the Gini Indices of the top num_vars_to_plot
     variables when discriminating the samples according to targets.
-    
+
     Parameters
     ----------
     ginis : np.ndarray
     Shape 1 x M where M is the number of variables
-    
+
     targets: np.ndarray or list
     Shape 1xN target labels
-    
+
     var_names: list of strings
-    Names of the variables for plotting, in the same order as in 
+    Names of the variables for plotting, in the same order as in
     ginis.
-    
+
     comparison_name: string
     Plot base title
-    
+
     num_vars_to_plot: int
-    
+
     """
     if num_vars_to_plot > len(ginis):
         num_vars_to_plot = len(ginis)
@@ -117,7 +117,7 @@ def plot_gini_indices(ginis, var_names, comparison_name,
     idx_for_plot = ginis_sort_idx[0:num_vars_to_plot]
     sorted_ginis = ginis[idx_for_plot]
     plot_var_names = np.array(var_names)[idx_for_plot]
-    
+
     fig = plt.figure()#figsize=(6, 4))
     ax = plt.subplot(111)
 
@@ -131,7 +131,7 @@ def plot_gini_indices(ginis, var_names, comparison_name,
     # set height of the y-axis
     #max_y = max(zip(mean_values, variance)) # returns a tuple
     #plt.ylim([0, (max_y[0] + max_y[1]) * 1.1])
-    plt.ylim([0, 0.75])
+    plt.ylim([0, 1])
     plt.xlim([-1, num_vars_to_plot])
 
     # hiding axis ticks
@@ -139,7 +139,7 @@ def plot_gini_indices(ginis, var_names, comparison_name,
             labelbottom="on", left="off", right="off", labelleft="on")
 
     # adding custom horizontal grid lines
-    for y in np.linspace(0.2, 0.7, 4):
+    for y in np.linspace(0.2, 1, 4):
         plt.axhline(y=y, xmin=0, xmax=4,
                     color="gray", linestyle="--", alpha=0.4)
 
