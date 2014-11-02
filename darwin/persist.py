@@ -4,7 +4,6 @@ from .version import __version__, VERSION
 
 
 class PersistenceMixin(object):
-
     """
     Mixin that adds joblib persistence load and save function to any class.
     """
@@ -31,7 +30,7 @@ class PersistenceMixin(object):
         elif obj_version[0] == VERSION[0]:
             if not hasattr(object, 'sampler'):
                 object.sampler = None
-                return learner
+                return object
             else:
                 raise ValueError(("{} stored in pickle file {} was created with version {} "
                                   "of {}, which is incompatible with the current version "
@@ -47,14 +46,15 @@ class PersistenceMixin(object):
             The path to the file to load.
         '''
         del self.__dict__
-        self.__dict__ = Learner.from_file(objdump_path).__dict__
+        self.__dict__ = PersistenceMixin.from_file(objdump_path).__dict__
 
     def save(self, objdump_path):
-        '''Save the learner to a file.
+        '''Save the object to a file.
+
         Parameters
         ----------
         objdump_path: str
-            The path to where you want to save the learner.
+            The path to where you want to save the object.
         '''
         # create the directory if it doesn't exist
         learner_dir = os.path.dirname(objdump_path)
