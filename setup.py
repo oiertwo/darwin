@@ -20,20 +20,8 @@ from setuptools.command.test import test as TestCommand
 from pip.req import parse_requirements
 from install_deps import get_requirements
 
-# Get version without importing, which avoids dependency issues
-module_name = find_packages()[0]
-version_pyfile = op.join(module_name, 'version.py')
-exec(compile(open(version_pyfile).read(), version_pyfile, 'exec'))
 
-script_path = 'scripts'
-
-#install_reqs = parse_requirements('requirements.txt')
-req_files = ['requirements.txt', 'pip_requirements.txt']
-
-LICENSE = 'new BSD'
-
-
-# long description
+#long description
 def read(*filenames, **kwargs):
     encoding = kwargs.get('encoding', 'utf-8')
     sep = kwargs.get('sep', '\n')
@@ -42,6 +30,20 @@ def read(*filenames, **kwargs):
         with io.open(filename, encoding=encoding) as f:
             buf.append(f.read())
     return sep.join(buf)
+
+
+# Get version without importing, which avoids dependency issues
+module_name = find_packages(exclude=['tests'])[0]
+version_pyfile = op.join(module_name, 'version.py')
+exec(compile(read(version_pyfile), version_pyfile, 'exec'))
+
+
+script_path = 'scripts'
+
+#install_reqs = parse_requirements('requirements.txt')
+req_files = ['requirements.txt', 'pip_requirements.txt']
+
+LICENSE = 'new BSD'
 
 
 setup_dict = dict(
