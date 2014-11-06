@@ -21,7 +21,9 @@ from pip.req import parse_requirements
 from install_deps import get_requirements
 
 # Get version without importing, which avoids dependency issues
-exec(compile(open('darwin/version.py').read(), 'darwin/version.py', 'exec'))
+module_name = find_packages()[0]
+version_pyfile = op.join(module_name, 'version.py')
+exec(compile(open(version_pyfile).read(), version_pyfile, 'exec'))
 
 script_path = 'scripts'
 
@@ -43,7 +45,7 @@ def read(*filenames, **kwargs):
 
 
 setup_dict = dict(
-    name='darwin',
+    name=module_name,
     version=__version__,
     description='Nifti data analysis and Classification Tools',
 
