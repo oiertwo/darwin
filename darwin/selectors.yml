@@ -1,7 +1,7 @@
 RFE:
     class: sklearn.feature_selection.RFE
-    default: 
-        estimator: 
+    default:
+        estimator:
             class: sklearn.svm.SVC
             default:
                 kernel: linear
@@ -10,8 +10,8 @@ RFE:
 
 RFECV:
     class: sklearn.feature_selection.RFECV
-    default: 
-        estimator: 
+    default:
+        estimator:
             class: sklearn.svm.SVC
             default:
                 kernel: linear
@@ -41,7 +41,6 @@ SelectFdr:
             function: sklearn.feature_selection.f_classif
     param_grid:
         alpha: [0.01, 0.03, 0.5, 0.1]
-
 
 ExtraTreesClassifier:
     class: sklearn.ensemble.ExtraTreesClassifier
