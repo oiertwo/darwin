@@ -130,8 +130,7 @@ def get_cv_method(targets, cvmethod='10', stratified=True):
     return StratifiedKFold(targets, int(cvmethod))
 
 
-def get_pipeline(fsmethod1, fsmethod2, clfmethod, n_feats, n_cpus,
-                 fs1_kwargs={}, fs2_kwargs={}, clf_kwargs={}):
+def get_pipeline(fsmethod1, fsmethod2, clfmethod):
     """Returns an instance of a sklearn Pipeline given the parameters
 
     Parameters
@@ -144,17 +143,6 @@ def get_pipeline(fsmethod1, fsmethod2, clfmethod, n_feats, n_cpus,
 
     clfmethod: str
         See get_clfmethod docstring for valid values
-
-    n_feats: int
-        Number of features
-
-    n_cpus: int
-
-    fs1_kwargs: dict
-
-    fs2_kwargs: dict
-
-    clf_kwargs: dict
 
     Returns
     -------
@@ -176,10 +164,10 @@ def get_pipeline(fsmethod1, fsmethod2, clfmethod, n_feats, n_cpus,
         log.info(info)
 
         #union of feature selection processes
-        fs1, fs1p = get_fsmethod(fs1n, n_feats, n_cpus, **fs1_kwargs)
+        fs1, fs1p = get_fsmethod(fs1n)
         fs1p = append_to_keys(fs1p, fs1n + '__')
         if fs2n is not None:
-            fs2, fs2p = get_fsmethod(fs2n, n_feats, n_cpus, **fs2_kwargs)
+            fs2, fs2p = get_fsmethod(fs2n)
             fs2p = append_to_keys(fs2p, fs2n + '__')
 
             combined_features = FeatureUnion([(fs1n, fs1), (fs2n, fs2)])
@@ -189,7 +177,7 @@ def get_pipeline(fsmethod1, fsmethod2, clfmethod, n_feats, n_cpus,
             fsp = fs1p
 
     #classifier instance
-    classif, clp = get_clfmethod(clfmethod, n_feats, **clf_kwargs)
+    classif, clp = get_clfmethod(clfmethod)
     #clp     = append_to_keys(clgrid[clfmethod], clfmethod + '__')
 
     #if clfmethod == 'gmm':
