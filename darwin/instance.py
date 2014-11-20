@@ -102,6 +102,29 @@ def import_pyfile(filepath, mod_name=None):
     return mod
 
 
+def instantiate_this(class_path, init_args):
+    """Instantiates an object of the class in class_path with the given initializantion arguments.
+
+    Parameters
+    ----------
+    class_path: str
+        String to the path of the class.
+
+    init_args: dict
+        Dictionary of the names and values of the initialization arguments to the class
+
+    Return
+    ------
+    Instantiated object
+    """
+    try:
+        cls = import_this(class_path)
+        return cls(*init_args)
+    except:
+        log.exception('Error instantiating class {} with the arguments {}.'.format(class_path, init_args))
+        raise
+
+
 class MethodInstantiator(object):
 
     """
@@ -115,7 +138,10 @@ class MethodInstantiator(object):
     """
 
     def __init__(self, ymlpath=None):
-        self._ymlpath = ymlpath if ymlpath is not None
+
+        if ymlpath is not None:
+            self._ymlpath = ymlpath
+
         self._method_name = None
 
         try:
@@ -124,9 +150,9 @@ class MethodInstantiator(object):
 
         except IOError:
             log.exception("File {} not found.".format(ymlpath))
+            raise
         except:
             log.exception("Error reading file {}.".format(ymlpath))
-        finally:
             raise
 
     def get_yaml_item(self, method_name):
@@ -154,6 +180,10 @@ class MethodInstantiator(object):
 
     def has_method(self):
         return self._method_name is not None
+
+    @property
+    def methods(self):
+        return self.yamldata.keys()
 
     def _check_method_name(self):
         if not self.has_method:
@@ -212,31 +242,29 @@ class MethodInstantiator(object):
         ImportError
             If the there is any error importing the class
         """
-        def get_function(param_def):
-            for param_name in param_def:
-                if isinstance(param_def[param_name], dict):
-                    try:
-                        return import_this(param_def[param_name]['function'])
-                    except KeyError:
-                        raise
+        def get_if_any_instance(param_def):
+            if 'class' in param_def:
+                return instantiate_this(param_def['class'], param_def['default'])
+            elif 'function' in param_def:
+                return import_this(param_def['function'])
+
+            return None
 
         try:
             class_data = self.get_yaml_item(method_name)
-            def_parms = class_data['default_params']
+            def_parms = class_data['default']
 
-            for parm in def_parms:
-                try:
-                    func = get_function(parm)
-                except:
-                    pass
-                else:
-                    def_parms[parm] = func
+            for parm_name in def_parms:
+                obj = get_if_any_instance(def_parms[parm_name])
+                if obj is not None:
+                    def_parms[parm_name] = obj
+
             return def_parms
-    except ImportError:
+        except ImportError:
             log.exception("Error importing module class {}.".format(method_name))
+            raise
         except:
             log.exception("Error reading method {} definition in {}.".format(method_name, self._ymlpath))
-        finally:
             raise
 
     def get_method_instance(self, method_name):
@@ -264,14 +292,12 @@ class MethodInstantiator(object):
         """
         try:
             class_data = self.get_yaml_item(method_name)
-            cls = import_this(class_data['class'])
-            default_params = self.get_default_params(method_name)
-            return cls(**default_params)
+            return instantiate_this(class_data['class'], default_params)
         except ImportError:
             log.exception("Error importing module class {}.".format(method_name))
+            raise
         except:
             log.exception("Error reading method {} definition in {}.".format(method_name, self._ymlpath))
-        raise:
             raise
 
     def get_param_grid(self, method_name):
@@ -299,9 +325,9 @@ class MethodInstantiator(object):
             return class_data['param_grid']
         except ImportError:
             log.exception("Error importing module class {}.".format(method_name))
+            raise
         except:
             log.exception("Error reading method {} definition in {}.".format(method_name, self._ymlpath))
-        finally:
             raise
 
     def get_method_with_grid(self, method_name):
@@ -334,11 +360,11 @@ class LearnerInstantiator(MethodInstantiator):
     """
     Instantiator for the internal learners.yml file
     """
-    _ymlpath = 'learners.yml'
+    _ymlpath = op.join(op.dirname(__file__), 'learners.yml')
 
 
 class SelectorInstantiator(MethodInstantiator):
     """
-     Instantiator for the internal selectors.yml file
-     """
-     _ymlpath = 'selectors.yml'
+    Instantiator for the internal selectors.yml file
+    """
+    _ymlpath = op.join(op.dirname(__file__), 'selectors.yml')
