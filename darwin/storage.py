@@ -13,8 +13,8 @@ import os
 import shelve
 import logging
 
-from .filenames import (get_extension,
-                        add_extension_if_needed)
+from .utils.filenames import (get_extension,
+                              add_extension_if_needed)
 
 log = logging.getLogger(__name__)
 
@@ -53,5 +53,3 @@ def save_variables_to_shelve(file_path, variables):
             raise
 
     mashelf.close()
-
-

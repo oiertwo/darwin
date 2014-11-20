@@ -18,7 +18,7 @@ import numpy as np
 import scipy.stats as stats
 
 from .validation import check_X_y
-from .printable import Printable
+from .utils.printable import Printable
 
 
 class DistanceMeasure(object):
@@ -306,4 +306,3 @@ def welch_ttest(x, y):
 
 if __name__ == '__main__':
     from sklearn.datasets import make_classification
-

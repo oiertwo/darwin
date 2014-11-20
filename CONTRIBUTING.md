@@ -16,10 +16,10 @@ How to contribute
 -----------------
 
 The preferred way to contribute to darwin is to fork the 
-[main repository](http://github.com/alexsavio/darwin/) on
+[main repository](http://github.com/neurita/darwin/) on
 GitHub:
 
-1. Fork the [project repository](http://github.com/alexsavio/darwin):
+1. Fork the [project repository](http://github.com/neurita/darwin):
    click on the 'Fork' button near the top of the page. This creates
    a copy of the code under your account on the GitHub server.
 
@@ -108,7 +108,7 @@ Easy Issues
 -----------
 
 A great way to start contributing to darwin is to pick an item
-from the list of [Easy issues](https://github.com/alexsavio/issues?labels=Easy)
+from the list of [Easy issues](https://github.com/neurita/issues?labels=Easy)
 in the issue tracker. Resolving these issues allow you to start
 contributing to the project without much prior knowledge. Your
 assistance in this area will be greatly appreciated by the more

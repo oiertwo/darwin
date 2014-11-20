@@ -1,0 +1,99 @@
+RFE:
+    class: sklearn.feature_selection.RFE
+    default: 
+        estimator: 
+            class: sklearn.svm.SVC
+            default:
+                kernel: linear
+    param_grid:
+        step: [0.01, 0.05, 0.1]
+
+RFECV:
+    class: sklearn.feature_selection.RFECV
+    default: 
+        estimator: 
+            class: sklearn.svm.SVC
+            default:
+                kernel: linear
+    param_grid:
+        step: [0.01, 0.05, 0.1]
+
+SelectPercentile:
+    class: sklearn.feature_selection.SelectPercentile
+    default:
+        score_func:
+            function: sklearn.feature_selection.f_classif
+    param_grid:
+        percentile: [5, 10, 15, 20]
+
+SelectFpr:
+    class: sklearn.feature_selection.SelectFpr
+    default:
+        score_func:
+            function: sklearn.feature_selection.f_classif
+    param_grid:
+        alpha: [0.01, 0.03, 0.5, 0.1]
+
+SelectFdr:
+    class: sklearn.feature_selection.SelectFdr
+    default:
+        score_func:
+            function: sklearn.feature_selection.f_classif
+    param_grid:
+        alpha: [0.01, 0.03, 0.5, 0.1]
+
+
+ExtraTreesClassifier:
+    class: sklearn.ensemble.ExtraTreesClassifier
+    default:
+        n_estimators: 10
+    param_grid:
+        n_estimators: [10, 25, 50, 100]
+        criterion: ['gini', 'entropy']
+        max_features: ['auto', 'log2', None]
+
+PCA:
+    class: sklearn.decomposition.PCA
+    default:
+        random_state: 0
+    param_grid:
+        n_components: ['mle', None]
+
+RandomizedPCA:
+    class: sklearn.decomposition.PCA
+    default:
+        random_state: 0
+    param_grid:
+        n_components: ['mle', None]
+
+LDA:
+    class: sklearn.lda.LDA
+
+SelectKBest:
+    class: sklearn.feature_selection.SelectKBest
+    default:
+        score_func:
+            function: sklearn.feature_selection.f_regression
+    param_grid:
+        k: [5, 10, 20]
+
+PearsonCorrelationSelection:
+    class: darwin.features.PearsonCorrelationSelection
+    default:
+        thr : 0.95
+    param_grid:
+        thr: [0.85, 0.9, 0.95, 0.99]
+
+BhatacharyyaGaussianSelection:
+    class: darwin.features.BhatacharyyaGaussianSelection
+    default:
+        thr : 0.95
+    param_grid:
+        thr: [0.85, 0.9, 0.95, 0.99]
+
+WelchTestSelection:
+    class: darwin.features.WelchTestSelection
+    default:
+        thr : 0.95
+    param_grid:
+        thr: [0.85, 0.9, 0.95, 0.99]

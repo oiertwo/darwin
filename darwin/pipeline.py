@@ -24,7 +24,7 @@ from sklearn.grid_search import GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.cross_validation import LeaveOneOut
 
-from .printable import Printable
+from .utils.printable import Printable
 from .sklearn_utils import (get_pipeline,
                             get_cv_method)
 
@@ -314,6 +314,3 @@ class ClassificationPipeline(Printable):
             stds = ClassificationMetrics(*tuple(std_metrics))
 
             return avgs, stds
-
-
-

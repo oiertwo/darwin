@@ -16,7 +16,7 @@
 
 import numpy as np
 
-from .printable import Printable
+from .utils.printable import Printable
 
 
 class Threshold(Printable):

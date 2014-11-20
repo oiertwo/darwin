@@ -17,8 +17,8 @@ import numpy as np
 import logging
 import subprocess
 
-from .config import ALLOWED_EXTS
-from .exceptions import FolderNotFound
+from ..config import ALLOWED_EXTS
+from ..exceptions import FolderNotFound
 
 log = logging.getLogger(__name__)
 
