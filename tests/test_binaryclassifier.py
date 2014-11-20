@@ -29,5 +29,3 @@ results, metrics = test_binary_classification_with_classification_pipeline()
 #     inst = instance.LearnerInstantiator()
 #     learner_item_name = 'LinearSVC'
 #     classifier, param_grid = inst.get_method_with_grid(learner_item_name)
-
-

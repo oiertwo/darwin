@@ -264,7 +264,7 @@ class MethodInstantiator(object):
             log.exception("Error importing module class {}.".format(method_name))
             raise
         except:
-            log.exception("Error reading method {} definition in {}.".format(method_name, self._ymlpath))
+            log.exception("Error reading definition for method {} in {}.".format(method_name, self._ymlpath))
             raise
 
     def get_method_instance(self, method_name):
@@ -292,12 +292,12 @@ class MethodInstantiator(object):
         """
         try:
             class_data = self.get_yaml_item(method_name)
-            return instantiate_this(class_data['class'], default_params)
+            return instantiate_this(class_data['class'], self.get_default_params(method_name))
         except ImportError:
             log.exception("Error importing module class {}.".format(method_name))
             raise
         except:
-            log.exception("Error reading method {} definition in {}.".format(method_name, self._ymlpath))
+            log.exception("Error reading definition for method {} in {}.".format(method_name, self._ymlpath))
             raise
 
     def get_param_grid(self, method_name):
@@ -327,7 +327,7 @@ class MethodInstantiator(object):
             log.exception("Error importing module class {}.".format(method_name))
             raise
         except:
-            log.exception("Error reading method {} definition in {}.".format(method_name, self._ymlpath))
+            log.exception("Error reading definition for method {} in {}.".format(method_name, self._ymlpath))
             raise
 
     def get_method_with_grid(self, method_name):
@@ -352,7 +352,7 @@ class MethodInstantiator(object):
         try:
             return self.get_method_instance(method_name), self.get_param_grid(method_name)
         except:
-            log.exception("Error obtaining method {} definition in {}.".format(method_name, self._ymlpath))
+            log.exception("Error obtaining definition for method {} in {}.".format(method_name, self._ymlpath))
             raise
 
 
@@ -362,6 +362,8 @@ class LearnerInstantiator(MethodInstantiator):
     """
     _ymlpath = op.join(op.dirname(__file__), 'learners.yml')
 
+    #def get_learner():
+    #
 
 class SelectorInstantiator(MethodInstantiator):
     """
