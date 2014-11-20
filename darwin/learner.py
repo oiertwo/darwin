@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-import joblib
 
 from .instance import Instantiator
-from .persist import PersistenceMixin
+from .utils.persist import PersistenceMixin
 
 
 class Learner(PersistenceMixin):

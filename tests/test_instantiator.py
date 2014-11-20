@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import os.path as op
+import sys
 import pytest
-from darwin import instance
 import sklearn
+
+from darwin import instance
+
 
 CWD = op.dirname(op.realpath(__file__))
 MODULE_DIR = op.join(CWD, '..', 'darwin')
@@ -25,7 +28,7 @@ class TestImports(object):
     def test_import_pyfile(self):
         imp_inst = instance.import_pyfile(op.join(MODULE_DIR, 'version.py'), 'VERSION')
         assert('imp_inst' in sys.modules)
-        assert(has_attr(imp_inst, 'import_pyfile'))
+        assert(hasattr(imp_inst, 'import_pyfile'))
 
 
 class TestInstantiator(object):
@@ -59,10 +62,11 @@ class TestLearnerInstantiator(object):
 class TestSelectorInstantiator(object):
 
     def test_selector_with_class_instance(self):
-        selin = SelectorInstantiator()
+        selin = instance.SelectorInstantiator()
         selin.method_name = 'RFE'
         assert(isinstance(selin.default_params, sklearn.svm.SVC))
 
     def test_selector_with_function(self):
+        selin = instance.SelectorInstantiator()
         selin.method_name = 'SelectPercentile'
         assert(hasattr(selin.default_params['score_func'], '__call__'))

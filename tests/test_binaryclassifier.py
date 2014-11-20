@@ -27,3 +27,12 @@ def test_binary_classification_with_classification_pipeline():
     results, metrics = pipe.cross_validation(x, y)
 
     assert(results is not None)
+
+
+# def test_
+#
+#     inst = instance.LearnerInstantiator()
+#     learner_item_name = 'LinearSVC'
+#     classifier, param_grid = inst.get_method_with_grid(learner_item_name)
+
+
